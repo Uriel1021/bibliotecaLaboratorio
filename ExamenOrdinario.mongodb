@@ -1,0 +1,3149 @@
+//Crear base de datos
+use bilotecaLaboratori
+//Crear coleccion "usuarios" con reglas de inserción
+db.createCollection("usuarios", {
+   validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["matricula", "nombre", "apePaterno","apeMaterno", "correo"],
+            properties: {
+                matricula:{
+                    bsonType:"string",
+                    description:"Debe ser de tipo string"
+                },
+                nombre: {
+                    bsonType: "string",
+                    description: "Debe ser de tipo string"
+                },
+                apePaterno: {
+                    bsonType: "string",
+                    description: "Debe ser de tipo string"
+                },
+                apeMaterno: {
+                    bsonType: "string",
+                    description: "Debe ser de tipo string"
+                },
+                correo: {
+                    bsonType : "string",
+                    pattern : "@gmail\\.com$",
+                    description: "debe de ser de tipo string + '@gmail.com'"
+                },
+                usuario:{
+                    bsonType:"string",
+                    description: "El usuario debe ser de tipo string"
+                },
+                contrasenia:{
+                    bsonType:"string",
+                    description: "La contraseña debe ser de tipo string"
+                },
+                telefono:{
+                    bsonType:"string",
+                    description:"El telefono debe ser de tipo string"
+                },
+                grupo: {
+                    bsonType: "object",
+                    required:["nombreGrupo","semestre","carrera"],
+                    properties:{
+                        nombreGrupo:{bsonType:"string"},
+                        semestre: {
+                            bsonType: "object",
+                            required:["nombreSemestre"],
+                            properties:{
+                                nombreSemestre:{bsonType:"string"}
+                            },
+                            description: "Debe ser de tipo string"
+                        },
+                        carrera: {
+                            bsonType: "object",
+                            required:["nombreCarrera"],
+                            properties:{
+                                nombreGrupo:{bsonType:"string"}
+                            },
+                            description: "Debe ser de tipo string"
+                        },
+                    },
+                    description: "El nombreGrupo debe ser de tipo string. Carrera y semestre deben ser de tipos object"
+                },
+                tipoUsuario: {
+                    bsonType: "object",
+                    required:["nombreUsuario"],
+                    properties:{
+                        nombreUsuario:{bsonType:"string"}
+                    },
+                    description: "El tipo usuario debe ser de tipo object"
+                },
+                puesto: {
+                    bsonType: "object",
+                    required:["nombrePuesto","areaPuesto"],
+                    properties:{
+                        nombrePuesto:{bsonType:"string"},
+                        areaPuesto:{
+                            bsonType:"object",
+                            required:["area"],
+                            properties:{
+                                area:{bsonType:"string"}
+                            },
+                            description: "El area debe de ser tipo string"
+                        },
+                    },
+                    description: "el nombre del puesto debe de ser de tipo string y area puesto de tipo object"
+                }
+            }
+        }
+    }
+})
+
+//Insertar un documento "alumno"
+db.usuarios.insertOne({
+    'matricula':'0119030040',
+    'nombre':'Uriel',
+    'apePaterno':'Aguilar',
+    'apeMaterno':'Mauricio',
+    'correo':'aguilaruriel368@gmail.com',
+    'grupo':{ 
+        'nombreGrupo':'307',
+        'semestre':{ 
+            'nombreSemestre':'septimo'
+        },
+        'carrera':{ 
+            'nombreCarrera':'Licenciatura en informática'
+        }
+    },
+    'tipoUsuario':{ 
+        'nombreUsuario':'alumno'
+    }
+})
+
+
+//Insertar un documento de "servicios escolares" 
+db.usuarios.insertOne({
+    'matricula':'0119030060',
+    'nombre':'Uriel',
+    'apePaterno':'Aguilar',
+    'apeMaterno':'Mauricio',
+    'correo':'aguilaruriel368@gmail.com',
+    'usuario':'u.aguilar',
+    'contrasenia':'testerFlow',
+    'telefono': '9514626333',
+    'tipoUsuario':{ 
+        'nombreUsuario':'Servicios Escolares'
+    },
+    'puesto':{
+        'nombrePuesto':'Jefe de departamento de servicios escolares',
+        'areaPuesto':{
+            'area':'Servicios Escolares'
+        }
+    }
+})
+
+
+//Insertar un documento "Encargado"
+db.usuarios.insertOne({
+    'matricula':'0119030080',
+    'nombre':'Uriel',
+    'apePaterno':'Aguilar',
+    'apeMaterno':'Mauricio',
+    'correo':'aguilaruriel368@gmail.com',
+    'usuario':'u.aguilar',
+    'contrasenia':'testerFlow',
+    'telefono': '9514626333',
+    'tipoUsuario':{ 
+        'nombreUsuario':'Encargado'
+    },
+    'puesto':{
+        'nombrePuesto':'Jefe de Laboratorio',
+        'areaPuesto':{
+            'area':'Laboratorio A1'
+        }
+    }
+})
+
+
+db.usuarios.insertMany([
+    {
+        'matricula':'0119030041',
+        'nombre':'Jose',
+        'apePaterno':'Martinez',
+        'apeMaterno':'Juárez',
+        'correo':'jose@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'203',
+            'semestre':{ 
+                'nombreSemestre':'tercero'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en biologia'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030042',
+        'nombre':'Gabriel',
+        'apePaterno':'Ortiz',
+        'apeMaterno':'Marin',
+        'correo':'gaby@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'303',
+            'semestre':{ 
+                'nombreSemestre':'tercero'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en informatica'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030043',
+        'nombre':'Eduardo',
+        'apePaterno':'Lopez',
+        'apeMaterno':'Cortes',
+        'correo':'eduardo@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'606',
+            'semestre':{ 
+                'nombreSemestre':'sexto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en ciencias ambientales'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030044',
+        'nombre':'Sofia',
+        'apePaterno':'Duran',
+        'apeMaterno':'Aguilar',
+        'correo':'sofia@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'401',
+            'semestre':{ 
+                'nombreSemestre':'primero'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en biologia'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030045',
+        'nombre':'Bertha',
+        'apePaterno':'Torres',
+        'apeMaterno':'Alcantara',
+        'correo':'berthy@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'606',
+            'semestre':{ 
+                'nombreSemestre':'sexto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en administracion turistica'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030046',
+        'nombre':'Alexa',
+        'apePaterno':'Morales',
+        'apeMaterno':'Ramirez',
+        'correo':'alex@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'707',
+            'semestre':{ 
+                'nombreSemestre':'septimo'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Ingenieria Forestal'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030047',
+        'nombre':'Flora',
+        'apePaterno':'Macedonio',
+        'apeMaterno':'Juarez',
+        'correo':'flora@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'505',
+            'semestre':{ 
+                'nombreSemestre':'quinto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Ingenieria en tecnologia de la madera'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030048',
+        'nombre':'Andres',
+        'apePaterno':'Calamar',
+        'apeMaterno':'Nosabe',
+        'correo':'calamar@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'405',
+            'semestre':{ 
+                'nombreSemestre':'cuarto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en biologia'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030049',
+        'nombre':'Angel',
+        'apePaterno':'Morales',
+        'apeMaterno':'Juarez',
+        'correo':'angeles@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'403',
+            'semestre':{ 
+                'nombreSemestre':'tercero'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en ciencias ambientales'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030050',
+        'nombre':'Josue',
+        'apePaterno':'Martinez',
+        'apeMaterno':'Reyes',
+        'correo':'jos@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'409',
+            'semestre':{ 
+                'nombreSemestre':'noveno'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en ciencias ambientales'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030051',
+        'nombre':'Cristela',
+        'apePaterno':'Hernandez',
+        'apeMaterno':'Dominguez',
+        'correo':'cris@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'309',
+            'semestre':{ 
+                'nombreSemestre':'noveno'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en informatica'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030052',
+        'nombre':'Miriam',
+        'apePaterno':'Dominguez',
+        'apeMaterno':'Cruz',
+        'correo':'miriam@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'204',
+            'semestre':{ 
+                'nombreSemestre':'cuarto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en biologia'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030053',
+        'nombre':'Dulce',
+        'apePaterno':'Cruz',
+        'apeMaterno':'Heras',
+        'correo':'dul@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'605',
+            'semestre':{ 
+                'nombreSemestre':'quinto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en administracion turistica'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030054',
+        'nombre':'Donaji',
+        'apePaterno':'Cruz',
+        'apeMaterno':'Dominguez',
+        'correo':'dona@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'406',
+            'semestre':{ 
+                'nombreSemestre':'sexto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en ciencias ambientales'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030055',
+        'nombre':'Panfilo',
+        'apePaterno':'Guetierrez',
+        'apeMaterno':'Paz',
+        'correo':'pan@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'509',
+            'semestre':{ 
+                'nombreSemestre':'noveno'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Ingenieria en tecnologia de la madera'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030056',
+        'nombre':'Maria de los angeles',
+        'apePaterno':'Barrita',
+        'apeMaterno':'Colmenares',
+        'correo':'barrita@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'509',
+            'semestre':{ 
+                'nombreSemestre':'noveno'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Ingenieria en tecnologia de la madera'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030057',
+        'nombre':'Yennifer',
+        'apePaterno':'Lopez',
+        'apeMaterno':'Cruz',
+        'correo':'yenni@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'606',
+            'semestre':{ 
+                'nombreSemestre':'sexto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en biologia'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030058',
+        'nombre':'Norma',
+        'apePaterno':'Lopez',
+        'apeMaterno':'Lopez',
+        'correo':'normita@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'707',
+            'semestre':{ 
+                'nombreSemestre':'septimo'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en administracion turistica'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030059',
+        'nombre':'Yenisleydi',
+        'apePaterno':'Benitez',
+        'apeMaterno':'Martinez',
+        'correo':'yenis13@gmail.com',
+        'grupo':{ 
+            'nombreGrupo':'304',
+            'semestre':{ 
+                'nombreSemestre':'cuarto'
+            },
+            'carrera':{ 
+                'nombreCarrera':'Licenciatura en informatica'
+            }
+        },
+        'tipoUsuario':{ 
+            'nombreUsuario':'alumno'
+        }
+    },
+    {
+        'matricula':'0119030061',
+        'nombre':'Esmeralda',
+        'apePaterno':'Bolaños',
+        'apeMaterno':'Escobedo',
+        'correo':'esme@gmail.com',
+        'usuario':'e.bolaños',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030062',
+        'nombre':'Maria Isabel',
+        'apePaterno':'Baez',
+        'apeMaterno':'Teresa',
+        'correo':'mary@gmail.com',
+        'usuario':'m.baez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030063',
+        'nombre':'Laura',
+        'apePaterno':'Lopez',
+        'apeMaterno':'Nuñez',
+        'correo':'laura@gmail.com',
+        'usuario':'l.lopez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030064',
+        'nombre':'Florentino',
+        'apePaterno':'Mendez',
+        'apeMaterno':'Gijon',
+        'correo':'flores@gmail.com',
+        'usuario':'f.mendez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030065',
+        'nombre':'Maria',
+        'apePaterno':'Mendoza',
+        'apeMaterno':'Diaz',
+        'correo':'mariaaa@gmail.com',
+        'usuario':'m.mendoza',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030066',
+        'nombre':'David',
+        'apePaterno':'Sarmiento',
+        'apeMaterno':'Bustos',
+        'correo':'david@gmail.com',
+        'usuario':'d.sarmiento',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030067',
+        'nombre':'Leobardo',
+        'apePaterno':'Santiago',
+        'apeMaterno':'Paz',
+        'correo':'leobardo@gmail.com',
+        'usuario':'l.santiago',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030068',
+        'nombre':'Mireya',
+        'apePaterno':'Lopez',
+        'apeMaterno':'Luna',
+        'correo':'mireya@gmail.com',
+        'usuario':'m.lopez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030069',
+        'nombre':'Ivan',
+        'apePaterno':'Lopez',
+        'apeMaterno':'Salmoran',
+        'correo':'ivan@gmail.com',
+        'usuario':'i.lopez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de departamento de servicios escolares',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030070',
+        'nombre':'Alicia',
+        'apePaterno':'Rodriguez',
+        'apeMaterno':'Tapia',
+        'correo':'ali@gmail.com',
+        'usuario':'a.rodriguez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Prefecto',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030071',
+        'nombre':'Leonardo',
+        'apePaterno':'Vazquez',
+        'apeMaterno':'Gonzalez',
+        'correo':'leonar@gmail.com',
+        'usuario':'l.vazquez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030072',
+        'nombre':'Arturo',
+        'apePaterno':'Cassaola',
+        'apeMaterno':'Gonzalez',
+        'correo':'artur@gmail.com',
+        'usuario':'a.cassaola',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030073',
+        'nombre':'Cacilia',
+        'apePaterno':'Alfonso',
+        'apeMaterno':'Corrado',
+        'correo':'ceci@gmail.com',
+        'usuario':'c.corrado',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030074',
+        'nombre':'Ricardo',
+        'apePaterno':'Clark',
+        'apeMaterno':'Tapia',
+        'correo':'ricardo@gmail.com',
+        'usuario':'r.clark',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030075',
+        'nombre':'Mario',
+        'apePaterno':'Fuente',
+        'apeMaterno':'Carrasco',
+        'correo':'mario@gmail.com',
+        'usuario':'m.fuente',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030076',
+        'nombre':'Victor',
+        'apePaterno':'Hernandez',
+        'apeMaterno':'Bautista',
+        'correo':'victor@gmail.com',
+        'usuario':'v.hernandez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030077',
+        'nombre':'Victor',
+        'apePaterno':'aguirre',
+        'apeMaterno':'Hidalgo',
+        'correo':'victor@gmail.com',
+        'usuario':'v.agurre',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030078',
+        'nombre':'Cesar',
+        'apePaterno':'Valenzuela',
+        'apeMaterno':'Encinas',
+        'correo':'cesar@gmail.com',
+        'usuario':'c.valenzuela',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+    {
+        'matricula':'0119030079',
+        'nombre':'Wenceslao',
+        'apePaterno':'Santiago',
+        'apeMaterno':'Garcia',
+        'correo':'wences@gmail.com',
+        'usuario':'w.santiago',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Servicios Escolares'
+        },
+        'puesto':{
+            'nombrePuesto':'Secretario',
+            'areaPuesto':{
+                'area':'Servicios Escolares'
+            }
+        }
+    },
+
+
+
+    {
+        'matricula':'0119030081',
+        'nombre':'Pablo',
+        'apePaterno':'Martinez',
+        'apeMaterno':'Antunez',
+        'correo':'pablo@gmail.com',
+        'usuario':'p.martinez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030082',
+        'nombre':'Ernersto',
+        'apePaterno':'Suarez',
+        'apeMaterno':'Mota',
+        'correo':'ernesto@gmail.com',
+        'usuario':'e.suarez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030083',
+        'nombre':'Alejandro',
+        'apePaterno':'Ramirez',
+        'apeMaterno':'Villanueva',
+        'correo':'alej@gmail.com',
+        'usuario':'a.ramirez',
+        'contrasenia':'12345',
+        'telefono': '123456890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030084',
+        'nombre':'Elizabeth',
+        'apePaterno':'Gonzalez',
+        'apeMaterno':'Terreros',
+        'correo':'eli@gmail.com',
+        'usuario':'e.gonzales',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030085',
+        'nombre':'Ciro',
+        'apePaterno':'Aquino',
+        'apeMaterno':'Vasquez',
+        'correo':'ciro@gmail.com',
+        'usuario':'c.aquino',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030086',
+        'nombre':'Salvador',
+        'apePaterno':'Lobato',
+        'apeMaterno':'Larios',
+        'correo':'salvador@gmail.com',
+        'usuario':'s.lobato',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030087',
+        'nombre':'Rosalio',
+        'apePaterno':'Gabriel',
+        'apeMaterno':'Parra',
+        'correo':'rosa@gmail.com',
+        'usuario':'r.Gabriel',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030088',
+        'nombre':'Felix',
+        'apePaterno':'Perez',
+        'apeMaterno':'Garnica',
+        'correo':'felix@gmail.com',
+        'usuario':'f.perez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030089',
+        'nombre':'Alejandra',
+        'apePaterno':'Guzman',
+        'apeMaterno':'Javier',
+        'correo':'alejandra@gmail.com',
+        'usuario':'a.guzman',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Jefe de Laboratorio',
+            'areaPuesto':{
+                'area':'Laboratorio A1'
+            }
+        }
+    },
+    {
+        'matricula':'0119030090',
+        'nombre':'Delfina',
+        'apePaterno':'Luna',
+        'apeMaterno':'Krauletz',
+        'correo':'delfina@gmail.com',
+        'usuario':'d.luna',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030091',
+        'nombre':'Alejandra',
+        'apePaterno':'Acosta',
+        'apeMaterno':'Ramos',
+        'correo':'@gmail.com',
+        'usuario':'a.acosta',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030092',
+        'nombre':'Columba',
+        'apePaterno':'Martinez',
+        'apeMaterno':'Hernandez',
+        'correo':'columba@gmail.com',
+        'usuario':'c.martinez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030093',
+        'nombre':'Miguel Angel',
+        'apePaterno':'Curiel',
+        'apeMaterno':'Olivera',
+        'correo':'mikey@gmail.com',
+        'usuario':'m.curiel',
+        'contrasenia':'12345',
+        'telefono': '134567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030094',
+        'nombre':'Juan Gabriel',
+        'apePaterno':'Ruiz',
+        'apeMaterno':'Ruiz',
+        'correo':'jugaruiz@gmail.com',
+        'usuario':'j.ruiz',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030095',
+        'nombre':'Hector Hugo',
+        'apePaterno':'Esquivel',
+        'apeMaterno':'Reyes',
+        'correo':'heko@gmail.com',
+        'usuario':'h.esquivel',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030096',
+        'nombre':'Ricardo',
+        'apePaterno':'marcial',
+        'apeMaterno':'Juarez',
+        'correo':'rico@gmail.com',
+        'usuario':'r.marcial',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030097',
+        'nombre':'Dulce Maria',
+        'apePaterno':'Robles',
+        'apeMaterno':'Ambrocio',
+        'correo':'dulce@gmail.com',
+        'usuario':'d.robles',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030098',
+        'nombre':'Saira',
+        'apePaterno':'Garcia',
+        'apeMaterno':'Mendez',
+        'correo':'saira@gmail.com',
+        'usuario':'s.garcia',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+    {
+        'matricula':'0119030099',
+        'nombre':'Francisco Javier',
+        'apePaterno':'Mendez',
+        'apeMaterno':'Vazquez',
+        'correo':'francis@gmail.com',
+        'usuario':'f.mendez',
+        'contrasenia':'12345',
+        'telefono': '1234567890',
+        'tipoUsuario':{ 
+            'nombreUsuario':'Encargado'
+        },
+        'puesto':{
+            'nombrePuesto':'Bibliotecario',
+            'areaPuesto':{
+                'area':'Biblioteca'
+            }
+        }
+    },
+])
+
+db.createCollection("recursos", {
+   validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["categoria", "clasificacion","disponibilidad", "composicion","estadoFisico"],
+            properties: {
+                materialLaboratorio:{
+                    bsonType:"object",
+                    required:["nombre","tipo","marca","serie","modelo","sicipo","capacidad","complejo","precio","inventarioUnsij","observaciones"],
+                    properties:{
+                        nombre:{
+                            bsonType:"string",
+                            description:"El nombre debe de ser de tipo string"
+                        },
+                        tipo:{
+                            bsonType:"string",
+                            description:"El tipo debe de ser de tipo string"
+                        },
+                        marca:{
+                            bsonType:"string",
+                            description:"La marca debe de ser de tipo string"
+                        },
+                        serie:{
+                            bsonType:"string",
+                            description:"La marca debe de ser de tipo string"
+                        },
+                        modelo:{
+                            bsonType:"string",
+                            description:"El modelo debe de ser de tipo string"
+                        },
+                        sicipo:{
+                            bsonType:"string",
+                            description:"El sicipo debe de ser de tipo string"
+                        },
+                        capacidad:{
+                            bsonType:"string",
+                            description:"La capacidad debe de ser de tipo string"
+                        },
+                        complejo:{
+                            bsonType:"string",
+                            description:"El complejo debe de ser de tipo string"
+                        },
+                        precio:{
+                            bsonType:"int",
+                            description:"El precio debe de ser de tipo entero"
+                        },
+                        inventarioUnsij:{
+                            bsonType:"string",
+                            description:"El inventarioUnsij debe de ser de tipo string"
+                        },
+                        observaciones:{
+                            bsonType:"string",
+                            description:"Las observaciones debe de ser de tipo string"
+                        },
+                    },
+                    description:"El material de laboratorio debe ser de tipo object"
+                },
+                materialBiblioteca:{
+                    bsonType:"object",
+                    required:["titulo","tomo","paginas","volumen","editorial","autor","isbn","precio","idioma","inventarioUnsij","observaciones"],
+                    properties:{
+                        titulo:{
+                            bsonType:"string",
+                            description:"El titulo debe de ser de tipo string"
+                        },
+                        tomo:{
+                            bsonType:"int",
+                            description:"El tomo debe de ser de tipo int"
+                        },
+                        paginas:{
+                            bsonType:"int",
+                            description:"Las paginas debe de ser de tipo int"
+                        },
+                        volumen:{
+                            bsonType:"int",
+                            description:"El volumen debe de ser de tipo int"
+                        },
+                        editorial:{
+                            bsonType:"string",
+                            description:"El editorial debe de ser de tipo string"
+                        },
+                        autor:{
+                            bsonType:"string",
+                            description:"El autor debe de ser de tipo string"
+                        },
+                        isbn:{
+                            bsonType:"string",
+                            description:"El isbn debe de ser de tipo string"
+                        },
+                        precio:{
+                            bsonType:"int",
+                            description:"El precio debe de ser de tipo int"
+                        },
+                        idioma:{
+                            bsonType:"string",
+                            description:"El idioma debe de ser de tipo string"
+                        },
+                        inventarioUnsij:{
+                            bsonType:"string",
+                            description:"El inventarioUnsij debe de ser de tipo string"
+                        },
+                        observaciones:{
+                            bsonType:"string",
+                            description:"Las observaciones debe de ser de tipo string"
+                        },
+                    },
+                    description:"El material de biblioteca debe de ser de tipo object"
+                },
+
+                categoria:{
+                    bsonType:"object",
+                    required:["nombreCategoria"],
+                    properties:{
+                        nombreCategoria:{bsonType:"string"}
+                    },
+                    description:"Debe ser de tipo string"
+                },
+                clasificacion:{
+                    bsonType:"object",
+                    required:["nombreClasificacion"],
+                    properties:{
+                        nombreClasificacion:{bsonType:"string"}
+                    },
+                    description:"Debe de ser de tipo string"
+                },
+                disponibilidad:{
+                    bsonType:"object",
+                    required:["disponible"],
+                    properties:{
+                        disponible:{bsonType:"int"},
+                    },
+                    description:"debe ser 0(no disponible) o 1(disponible)"
+                },
+                composicion:{
+                    bsonType:"object",
+                    required:["nombreComposicion"],
+                    properties:{
+                        nombreComposicion:{bsonType:"string"},
+                    },
+                    description:"debe ser de tipo string"
+                },
+                estadoFisico:{
+                    bsonType:"object",
+                    required:["estado"],
+                    properties:{
+                        estado:{bsonType:"string"},
+                    },
+                    description:"Debe ser de tipo string"
+                },
+            }
+        }
+    }
+})
+
+//Insertar documento "laboratorio"
+db.recursos.insertOne({
+    'materialLaboratorio':{
+        'nombre':'Probeta',
+        'tipo':'tubo',
+        'marca':'Lab',
+        'serie':'li0112',
+        'modelo':'043',
+        'sicipo':'Sin definir',
+        'capacidad':'100 ml',
+        'complejo':'A',
+        'precio':560,
+        'inventarioUnsij':'unsij012122',
+        'observaciones':'Ninguna',
+    },
+    'categoria':{
+        'nombreCategoria':'Probetas'
+    },
+    'clasificacion':{
+        'nombreClasificacion':'Herramientas'
+    },
+    'disponibilidad':{
+        'disponible':1
+    },
+    'composicion':{
+        'nombreComposicion':'vidrio'
+    },
+    'estadoFisico':{
+        'estado':'excelente'
+    },
+})
+
+//Insertar documento "Biblioteca"
+
+db.recursos.insertOne({
+    'materialBiblioteca':{
+        'titulo':'EL viaje al centro de la tierra',
+        'tomo':1,
+        'paginas':220,
+        'volumen':1,
+        'editorial':'Paso de luna',
+        'autor':'Trevor',
+        'isbn':'21232323',
+        'fechaPublicacion':new Date('Jan 01, 1999'),
+        'precio':350,
+        'idioma':'Español',
+        'inventarioUnsij':'unsij323333',
+        'observaciones':'El libro tiene detalles en la pasta',
+    },
+    'categoria':{
+        'nombreCategoria':'Lectura'
+    },
+    'clasificacion':{
+        'nombreClasificacion':'Libro'
+    },
+    'disponibilidad':{
+        'disponible':1
+    },
+    'composicion':{
+        'nombreComposicion':'Portada con pasta y hojas en papel mate'
+    },
+    'estadoFisico':{
+        'estado':'Regular'
+    },
+})
+
+
+db.recursos.insertMany([
+    {
+        'materialLaboratorio':{
+            'nombre':'embudo buchner',
+            'tipo':'embudos',
+            'marca':'0323',
+            'serie':'2323',
+            'modelo':'32323',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'B',
+            'precio':200,
+            'inventarioUnsij':'unsij121212',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Embudos'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Plastico'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Embudo',
+            'tipo':'embudos',
+            'marca':'2424',
+            'serie':'442323',
+            'modelo':'323',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'B',
+            'precio':250,
+            'inventarioUnsij':'unsij3233',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Embudos'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Kitasato',
+            'tipo':'Rama lateral',
+            'marca':'23323',
+            'serie':'32323',
+            'modelo':'323253',
+            'sicipo':'Sin definir',
+            'capacidad':'1 litro',
+            'complejo':'A',
+            'precio':300,
+            'inventarioUnsij':'unsij232323',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Probetas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Cristalizador',
+            'tipo':'Recipiente',
+            'marca':'3434',
+            'serie':'545',
+            'modelo':'54554',
+            'sicipo':'Sin definir',
+            'capacidad':'65 ml',
+            'complejo':'C',
+            'precio':456,
+            'inventarioUnsij':'unsij32323',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Recipientes'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Vidrio de reloj',
+            'tipo':'recipiente',
+            'marca':'434',
+            'serie':'43434',
+            'modelo':'43434',
+            'sicipo':'Sin definir',
+            'capacidad':'80/70 mm',
+            'complejo':'C',
+            'precio':434,
+            'inventarioUnsij':'unsij43434',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Recipientes'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Malo'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Tubos de ensayo',
+            'tipo':'recipiente',
+            'marca':'43434',
+            'serie':'8878',
+            'modelo':'8788',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'C',
+            'precio':6000,
+            'inventarioUnsij':'unsij434343',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Recipientes'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Buretas',
+            'tipo':'probeta',
+            'marca':'3434',
+            'serie':'545',
+            'modelo':'545',
+            'sicipo':'Sin definir',
+            'capacidad':'50 ml',
+            'complejo':'A',
+            'precio':545,
+            'inventarioUnsij':'unsij434343',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Probetas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Embudo decantacion',
+            'tipo':'conicos',
+            'marca':'3434',
+            'serie':'43434',
+            'modelo':'43434',
+            'sicipo':'Sin definir',
+            'capacidad':'500 ml',
+            'complejo':'D',
+            'precio':345,
+            'inventarioUnsij':'unsij43434',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Embudos'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Matraz aforado',
+            'tipo':'aforado',
+            'marca':'434',
+            'serie':'43434',
+            'modelo':'434',
+            'sicipo':'Sin definir',
+            'capacidad':'1000 ml',
+            'complejo':'C',
+            'precio':2323,
+            'inventarioUnsij':'unsij32323',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Recipientes'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Malo'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Escobilla',
+            'tipo':'mechon',
+            'marca':'32323',
+            'serie':'434',
+            'modelo':'434',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'K',
+            'precio':434,
+            'inventarioUnsij':'unsij65766',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Limpieza'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramienta'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Pelo natural'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Erlenmeyer',
+            'tipo':'recipiente',
+            'marca':'43ff4',
+            'serie':'fd434',
+            'modelo':'aas32',
+            'sicipo':'Sin definir',
+            'capacidad':'500 ml',
+            'complejo':'C',
+            'precio':890,
+            'inventarioUnsij':'unsij54989',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Recipientes'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Malo'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Tubo recogedor de gases',
+            'tipo':'tubo',
+            'marca':'34rr',
+            'serie':'r4343434',
+            'modelo':'fffff434',
+            'sicipo':'Sin definir',
+            'capacidad':'50 ml',
+            'complejo':'A',
+            'precio':450,
+            'inventarioUnsij':'unsij65656',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Probetas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Pinzas',
+            'tipo':'tijeras',
+            'marca':'545542',
+            'serie':'43fff',
+            'modelo':'hh6h',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'G',
+            'precio':120,
+            'inventarioUnsij':'unsij12343',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Pinzas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Metal'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Lamina portaobjetos',
+            'tipo':'recipiente',
+            'marca':'rere334',
+            'serie':'434f4',
+            'modelo':'fff44',
+            'sicipo':'Sin definir',
+            'capacidad':'No. 12',
+            'complejo':'C',
+            'precio':100,
+            'inventarioUnsij':'unsij1222',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Recipientes'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Vidrio'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Manguera',
+            'tipo':'tubo',
+            'marca':'434e',
+            'serie':'ee3434',
+            'modelo':'3x',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'m',
+            'precio':1200,
+            'inventarioUnsij':'unsij4343',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Mangueras'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Caucho'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Papel indicador PH',
+            'tipo':'papel',
+            'marca':'43r4',
+            'serie':'434r',
+            'modelo':'434rs',
+            'sicipo':'Sin definir',
+            'capacidad':'9 cajas',
+            'complejo':'Y',
+            'precio':80,
+            'inventarioUnsij':'unsij32345',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Indicadores'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel'
+        },
+        'estadoFisico':{
+            'estado':'bueno'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Pinzas con nuet',
+            'tipo':'sujecion',
+            'marca':'4343',
+            'serie':'54554',
+            'modelo':'545343',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'G',
+            'precio':130,
+            'inventarioUnsij':'unsij4342',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Pinzas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Metal'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Pinzas de hoffman',
+            'tipo':'presion',
+            'marca':'435g',
+            'serie':'ggg',
+            'modelo':'xx3',
+            'sicipo':'Sin definir',
+            'capacidad':'Si definir',
+            'complejo':'G',
+            'precio':230,
+            'inventarioUnsij':'unsij',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Pinzas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Metal'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Varillas cilindricas',
+            'tipo':'cilindrica vertical',
+            'marca':'4342',
+            'serie':'232323',
+            'modelo':'rr4',
+            'sicipo':'Sin definir',
+            'capacidad':'Sin definir',
+            'complejo':'F',
+            'precio':340,
+            'inventarioUnsij':'unsij4343',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Varillas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Metal'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+        'materialLaboratorio':{
+            'nombre':'Frasco cilindrico',
+            'tipo':'recipiente',
+            'marca':'4343',
+            'serie':'4344',
+            'modelo':'43444',
+            'sicipo':'Sin definir',
+            'capacidad':'250 ml',
+            'complejo':'C',
+            'precio':50,
+            'inventarioUnsij':'unsij43434',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Recipientes'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Herramientas'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Plastico'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        }
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'The globalization of world politics. An introduction to international relations',
+            'tomo':1,
+            'paginas':122,
+            'volumen':1,
+            'editorial':'Oxford University Press',
+            'autor':'Baylis, Smith & Owens',
+            'isbn':'9780198825548',
+            'fechaPublicacion':new Date('Jan 01, 2000'),
+            'precio':250,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij32323',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Politica'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A1'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Gobernanza y desempeño exportador de los servicios modernos en América Latina y la India',
+            'tomo':1,
+            'paginas':300,
+            'volumen':1,
+            'editorial':'Konrad Adenauer',
+            'autor':'Alvarez, Fernández-Stark y Mulder',
+            'isbn':'9789211220421',
+            'fechaPublicacion':new Date('Jan 01, 2000'),
+            'precio':1200,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij121254',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Politica'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Arquitectura limpia: Guía para especialistas en la estructura y el diseño de software',
+            'tomo':1,
+            'paginas':500,
+            'volumen':1,
+            'editorial':'ANAYA MULTIMEDIA',
+            'autor':'Robert Martin',
+            'isbn':'978-8441539907',
+            'fechaPublicacion':new Date('Jan 01, 2000'),
+            'precio':560,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Software'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'The DevOps Handbook: How to Create World-Class Agility, Reliability, and Security in Technology Orga',
+            'tomo':1,
+            'paginas':333,
+            'volumen':1,
+            'editorial':'IT Revolution Press',
+            'autor':'Gene kim',
+            'isbn':'978-1942788003',
+            'fechaPublicacion':new Date('Jul 01, 2005'),
+            'precio':356,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij434',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Sofware'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Malo'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':' Código limpio',
+            'tomo':1,
+            'paginas':400,
+            'volumen':1,
+            'editorial':'ANAYA MULTIMEDIA',
+            'autor':'Robert Martin',
+            'isbn':'8441532109',
+            'fechaPublicacion':new Date('Jul 01, 2005'),
+            'precio':1300,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij43445',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Software'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A1'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Refactoring',
+            'tomo':1,
+            'paginas':450,
+            'volumen':1,
+            'editorial':'PRENTICE',
+            'autor':'Martin Fowler',
+            'isbn':'9780134757599',
+            'fechaPublicacion':new Date('Jul 01, 2005'),
+            'precio':235,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij3254',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Software'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A3'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Finanzas corporativas',
+            'tomo':1,
+            'paginas':600,
+            'volumen':1,
+            'editorial':'McGraw-Hill',
+            'autor':'Ross, Stephen A., Westerfield, Randolph W., Jaffé, Jeffrey F., Jordan, Bradford D.',
+            'isbn':'978-607-15-0741-9',
+            'fechaPublicacion':new Date('Jul 01, 2005'),
+            'precio':690,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij3436',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Finanzas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A3'
+        },
+        'estadoFisico':{
+            'estado':'Malo'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'INVESTIGACION DE MARKETING 3.0',
+            'tomo':1,
+            'paginas':1200,
+            'volumen':1,
+            'editorial':'PIRAMIDE',
+            'autor':'TEODORO LUQUE MARTINEZ',
+            'isbn':'978-84-368-3830-5',
+            'fechaPublicacion':new Date('Jul 01, 2005'),
+            'precio':350,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij4344',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Marketing'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'TECNICAS DE ANALISIS DE DATOS EN INVESTIGACION DE MERCCADOS',
+            'tomo':1,
+            'paginas':203,
+            'volumen':1,
+            'editorial':'PIRAMIDE',
+            'autor':'TEODORO LUQUE MARTINEZ	',
+            'isbn':'978-84-368-2619-7',
+            'fechaPublicacion':new Date('Sep 01, 2010'),
+            'precio':500,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij43443',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Marketing'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A4'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Big Data Fundamentals: Concepts, Drivers & Techniques',
+            'tomo':1,
+            'paginas':2500,
+            'volumen':1,
+            'editorial':'Prentice Hall.',
+            'autor':'Thomas Erl, Wajid Khattak, and Paul Buhler	',
+            'isbn':'978-0134291079',
+            'fechaPublicacion':new Date('Sep 01, 2010'),
+            'precio':600,
+            'idioma':'Ingles',
+            'inventarioUnsij':'unsij43428',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Software'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'The sociology of education in Canadá. Fifth edition.',
+            'tomo':1,
+            'paginas':560,
+            'volumen':1,
+            'editorial':'Oxford',
+            'autor':'Terry Wotherspoon',
+            'isbn':'978-0199024858',
+            'fechaPublicacion':new Date('Sep 01, 2010'),
+            'precio':450,
+            'idioma':'Ingles',
+            'inventarioUnsij':'unsij43434',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Educacion'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Foucault, Power and Education.',
+            'tomo':1,
+            'paginas':300,
+            'volumen':1,
+            'editorial':'New York',
+            'autor':'Stephen Ball',
+            'isbn':'978-0-415-895361',
+            'fechaPublicacion':new Date('Sep 01, 2010'),
+            'precio':150,
+            'idioma':'Ingles',
+            'inventarioUnsij':'unsij32323',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Educacion'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'	Miedo y Osadía. La Cotidianidad del Docente que se Arriesga a Practicar una Pedagogía Transformadora',
+            'tomo':1,
+            'paginas':349,
+            'volumen':1,
+            'editorial':'Buenos Aires',
+            'autor':'Freire, P., y Shor, I',
+            'isbn':'978-987-629-409-6',
+            'fechaPublicacion':new Date('Sep 01, 2010'),
+            'precio':345,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij4343',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Educacion'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':0
+        },
+        'composicion':{
+            'nombreComposicion':'Papel mate'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Spaces speak, are you listening',
+            'tomo':1,
+            'paginas':450,
+            'volumen':1,
+            'editorial':'MIT PRESS',
+            'autor':'Harry Blesser',
+            'isbn':'026251317X',
+            'fechaPublicacion':new Date('Dic 01, 2022'),
+            'precio':1200,
+            'idioma':'Ingles',
+            'inventarioUnsij':'unsijewew33',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Idiomas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'Gramática árabe comentada',
+            'tomo':1,
+            'paginas':567,
+            'volumen':1,
+            'editorial':'Albujayra sl',
+            'autor':'Antonio morales delgado',
+            'isbn':'8494051903',
+            'fechaPublicacion':new Date('Dic 01, 2022'),
+            'precio':1200,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij543e',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Idiomas'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Bueno'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'ADMINISTRACION. UN ENFOQUE BASADO EN COMPETENCIAS',
+            'tomo':1,
+            'paginas':356,
+            'volumen':1,
+            'editorial':'CENGAGE',
+            'autor':'HELLRIEGEL, DON; JACKSON, SUSAN; SLOCUM JR, JOHN',
+            'isbn':'978-607-526-301-4',
+            'fechaPublicacion':new Date('Dic 01, 2022'),
+            'precio':450,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij434',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Administracion'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A2'
+        },
+        'estadoFisico':{
+            'estado':'Malo'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'ADMINISTRACION',
+            'tomo':1,
+            'paginas':2600,
+            'volumen':1,
+            'editorial':'Paso de luna',
+            'autor':'ROBBINS, STEPHEN; COULTER, MARY',
+            'isbn':'9786073227674',
+            'fechaPublicacion':new Date('Dic 01, 2022'),
+            'precio':1200,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij97865',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Administracion'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel bond A1'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'HOTELERIA Y TURISMO: MANUAL DE ADMINISTRACIÓN HOTELERA',
+            'tomo':1,
+            'paginas':345,
+            'volumen':1,
+            'editorial':'DALY',
+            'autor':'VV.AA.',
+            'isbn':'9788495818331',
+            'fechaPublicacion':new Date('Dic 01, 2022'),
+            'precio':120,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij434',
+            'observaciones':'Niniguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Turismo'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel mate'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+    {
+       'materialBiblioteca':{
+            'titulo':'TURISMO, HOTELERÍA Y RESTAURANTES	',
+            'tomo':1,
+            'paginas':127,
+            'volumen':1,
+            'editorial':'LEXUS',
+            'autor':'VV.AA.',
+            'isbn':'9789972209970',
+            'fechaPublicacion':new Date('Dic 01, 2022'),
+            'precio':120,
+            'idioma':'Español',
+            'inventarioUnsij':'unsij4343w',
+            'observaciones':'Ninguna',
+        },
+        'categoria':{
+            'nombreCategoria':'Turismo'
+        },
+        'clasificacion':{
+            'nombreClasificacion':'Libro'
+        },
+        'disponibilidad':{
+            'disponible':1
+        },
+        'composicion':{
+            'nombreComposicion':'Papel mate'
+        },
+        'estadoFisico':{
+            'estado':'Excelente'
+        },
+    },
+])
+
+db.createCollection("vales", {
+   validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["recurso","prestamo","condiciones","encargado"],
+            properties: {
+                recurso:{
+                    bsonType:"string",
+                    description:"Debe ser de tipo string"
+                },
+                prestamo:{
+                    bsonType:"object",
+                    required:["responsable","fechaEntrega","fechaDevolucion","estadoPrestamo","areaPrestamo"],
+                    properties:{
+                        responsable:{
+                            bsonType:"string",
+                            description:"Debe ser de tipo string"
+                        },
+                        fechaEntrega:{
+                            bsonType:"date",
+                            description:"Debe ser de tipo date"
+                        },
+                        fechaDevolucion:{
+                            bsonType:"date",
+                            description:"Debe ser de tipo date"
+                        },
+                        estadoPrestamo:{
+                            bsonType:"string",
+                            description:"Debe ser de tipo string"
+                        },
+                        areaPrestamo:{
+                            bsonType:"string",
+                            description:"Debe ser de tipo string"
+                        },
+                    },
+                    description:"El prestamo debe de ser de tipo object"
+                },
+                condiciones:{
+                    bsonType:"object",
+                    required:["condicion"],
+                    properties:{
+                        condicion:{
+                            bsonType:"string",
+                            description:"Debe ser de tipo string"
+                        },
+                    },
+                    description:"La condicion debe de ser de tipo object"
+                },
+                encargado:{
+                    bsonType:"object",
+                    required:["matricula"],
+                    properties:{
+                        matricula:{
+                            bsonType:"string",
+                            description:"Debe de ser tipo string"
+                        },
+                    },
+                    description:"La matricula debe ser de tipo object"
+                },    
+            },
+            description:"El vale debe ser de tipo object"
+        }
+    }
+})
+
+
+
+
+
+db.vales.insertOne({
+    'recurso':'Probeta',
+    'prestamo':{
+        'responsable':'0119030040',
+        'fechaEntrega':new Date('jan 19,2023'),
+        'fechaDevolucion':new Date('jan 25,2023'),
+        'estadoPrestamo':'Sin entrega',
+        'areaPrestamo':'Laboratorio',
+    },
+    'condiciones':{
+        'condicion':'El prestamo expira dentro de una semana'
+    },
+    'encargado':{
+        'matricula':'0119030080'
+    },
+})
+
+
+
+db.vales.insertMany([
+    {
+        'recurso':'embudo buchner',
+            'prestamo':{
+            'responsable':'0119030041',
+            'fechaEntrega':new Date('Mar 01,2023'),
+            'fechaDevolucion': new Date('Mar 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030081'
+        },
+    },
+    {
+        'recurso':'Kitasato',
+            'prestamo':{
+            'responsable':'0119030042',
+            'fechaEntrega':new Date('Mar 01,2023'),
+            'fechaDevolucion': new Date('Mar 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030082'
+        },
+    },
+    {
+        'recurso':'Cristalizador',
+            'prestamo':{
+            'responsable':'0119030043',
+            'fechaEntrega':new Date('Mar 01,2023'),
+            'fechaDevolucion': new Date('Mar 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030083'
+        },
+    },
+    {
+        'recurso':'Vidrio de reloj',
+            'prestamo':{
+            'responsable':'0119030044',
+            'fechaEntrega':new Date('Mar 01,2023'),
+            'fechaDevolucion': new Date('Mar 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030083'
+        },
+    },
+    {
+        'recurso':'Tubos de ensayo',
+            'prestamo':{
+            'responsable':'0119030044',
+            'fechaEntrega':new Date('May 01,2023'),
+            'fechaDevolucion': new Date('May 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030084'
+        },
+    },
+    {
+        'recurso':'Buretas',
+            'prestamo':{
+            'responsable':'0119030045',
+            'fechaEntrega':new Date('May 01,2023'),
+            'fechaDevolucion': new Date('May 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030085'
+        },
+    },
+    {
+        'recurso':'Embudo decantacion',
+            'prestamo':{
+            'responsable':'0119030046',
+            'fechaEntrega':new Date('May 01,2023'),
+            'fechaDevolucion': new Date('May 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030086'
+        },
+    },
+    {
+        'recurso':'Matraz aforado',
+            'prestamo':{
+            'responsable':'0119030047',
+            'fechaEntrega':new Date('May 01,2023'),
+            'fechaDevolucion': new Date('May 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030087'
+        },
+    },
+    {
+        'recurso':'Escobilla',
+            'prestamo':{
+            'responsable':'0119030048',
+            'fechaEntrega':new Date('May 01,2023'),
+            'fechaDevolucion': new Date('May 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Laboratorio',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030088'
+        },
+    },
+    {
+        'recurso':'Erlenmeyer',
+            'prestamo':{
+            'responsable':'0119030049',
+            'fechaEntrega':new Date('Oct 01,2023'),
+            'fechaDevolucion': new Date('Oct 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030089'
+        },
+    },
+    {
+        'recurso':'Tubo recogedor de gases',
+            'prestamo':{
+            'responsable':'0119030050',
+            'fechaEntrega':new Date('Oct 01,2023'),
+            'fechaDevolucion': new Date('Oct 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030090'
+        },
+    },
+    {
+        'recurso':'The globalization of world politics. An introduction to international relations',
+            'prestamo':{
+            'responsable':'0119030051',
+            'fechaEntrega':new Date('Oct 01,2023'),
+            'fechaDevolucion': new Date('Oct 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030091'
+        },
+    }, 
+    {
+        'recurso':'Gobernanza y desempeño exportador de los servicios modernos en América Latina y la India',
+            'prestamo':{
+            'responsable':'0119030052',
+            'fechaEntrega':new Date('Oct 01,2023'),
+            'fechaDevolucion': new Date('Oct 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030092'
+        },
+    },
+    
+    {
+        'recurso':'Arquitectura limpia: Guía para especialistas en la estructura y el diseño de software',
+            'prestamo':{
+            'responsable':'0119030053',
+            'fechaEntrega':new Date('Oct 01,2023'),
+            'fechaDevolucion': new Date('Oct 07,2023'),
+            'estadoPrestamo':'Devuelto',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030093'
+        },
+    },    
+    {
+        'recurso':'The DevOps Handbook: How to Create World-Class Agility, Reliability, and Security in Technology Orga',
+            'prestamo':{
+            'responsable':'0119030054',
+            'fechaEntrega':new Date('Dic 01,2023'),
+            'fechaDevolucion': new Date('Dic 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030094'
+        },
+    },
+    {
+        'recurso':'Código limpio',
+            'prestamo':{
+            'responsable':'0119030055',
+            'fechaEntrega':new Date('Dic 01,2023'),
+            'fechaDevolucion': new Date('Dic 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030095'
+        },
+    },
+    {
+        'recurso':'Refactoring',
+            'prestamo':{
+            'responsable':'0119030056',
+            'fechaEntrega':new Date('Dic 01,2023'),
+            'fechaDevolucion': new Date('Dic 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030096'
+        },
+    },
+    {
+        'recurso':'Finanzas corporativas',
+            'prestamo':{
+            'responsable':'0119030057',
+            'fechaEntrega':new Date('Dic 01,2023'),
+            'fechaDevolucion': new Date('Dic 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030097'
+        },
+    },
+    {
+        'recurso':'INVESTIGACION DE MARKETING 3.0',
+            'prestamo':{
+            'responsable':'0119030098',
+            'fechaEntrega':new Date('Dic 01,2023'),
+            'fechaDevolucion': new Date('Dic 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030098'
+        },
+    },
+    {
+        'recurso':'Gramática árabe comentada',
+            'prestamo':{
+            'responsable':'0119030059',
+            'fechaEntrega':new Date('Dic 01,2023'),
+            'fechaDevolucion': new Date('Dic 07,2023'),
+            'estadoPrestamo':'Prestado',
+            'areaPrestamo':'Biblioteca',
+        },
+        'condiciones':{
+            'condicion':'El prestamo vende durante una semana'
+        },
+        'encargado':{
+            'matricula':'0119030099'
+        },
+    },
+])
+
+//Consulta en documentos añadidos
+
+//01. Mostrar los usuarios que sean alumnos
+db.usuarios.find({'tipoUsuario.nombreUsuario':'alumno'}).pretty().limit(5)
+
+//02. Mostrar todos los que sean de la carrera de informatica
+db.usuarios.find({'grupo.carrera.nombreCarrera':'Licenciatura en informatica'});
+
+//03. Mostrar todos los alumnos que sean de la carrera de biologia
+db.usuarios.find({'tipoUsuario.nombreUsuario':'alumno','grupo.carrera.nombreCarrera':'Licenciatura en biologia'},{nombre:1,apePaterno:1,apeMaterno:1}).pretty()
+
+//04, Mostrar todas las carreras
+db.usuarios.find({'grupo.carrera':{$exists:true}},{'grupo.carrera.nombreCarrera':1}).pretty().limit(5)
+
+//05. Sumar el total del los alumnos 
+db.usuarios.find({'tipoUsuario.nombreUsuario':'alumno'}).count()
+
+//06. Mostrar todos los usuarios que su area sea en servicios escolares
+db.usuarios.find({'puesto.areaPuesto.area':'Servicios Escolares'},{nombre:1,apePaterno:1,apeMaterno:1}).pretty().limit(7)
+
+//07. Mostrar todos los usuarios que su puesto sea secretario y que cuenten con un telefono
+db.usuarios.find({telefono:{$exists:true},'puesto.nombrePuesto':'Secretario'}).pretty()
+
+//08. Mostrar todos los puesto que existe
+db.usuarios.find({puesto:{$exists:true}},{'puesto.nombrePuesto':1}).pretty().limit(5)
+
+//09. Actualizar un documento
+db.usuario.updateOne({matricula:{$eq:'0119030072'}},{$set:{telefono:'9511234567'}})
+
+//10. Actualizar un documento añadado
+db.usuario.updateOne({matricula:{$eq:'0119030074'}},{$set:{'puesto.nombrePuesto':'Jefe de departamento de servicios escolares'}})
+
+//11. Mostrar con Java Script los usuarios
+db.usuarios.find().forEach(usuarios => print("Nombre Completo: " + usuarios.nombre + " " + usuarios.apePaterno + " " + usuarios.apeMaterno))
+
+//12. Mostrar los usuarios que sean encargados
+db.usuarios.find({'tipoUsuario.nombreUsuario':'Encargado'},{nombre:1,apePaterno:1,apeMaterno:1}).pretty()
+
+//13. Mostar todas las categorias de laboratorio
+db.recursos.find({materialLaboratorio:{$exists:true}},{'categoria.nombreCategoria':1}).pretty()
+
+//14.Mostrar todas las categorias de biblioteca
+db.recursos.find({materialBiblioteca:{$exists:true}},{'categoria.nombreCategoria':1}).pretty()
+
+//15. Mostrar los materiales disponibles en los laboratorios
+db.recursos.find({materialLaboratorio:{$exists:true},'disponibilidad.disponible':{$eq:1}},{'materialLaboratorio.nombre':1})
+
+//16.Mostrar los libros disoponibles en la biblioteca
+db.recursos.find({materialBiblioteca:{$exists:true},'disponibilidad.disponible':{$eq:1}},{'materialBiblioteca.titulo':1}).pretty()
+
+//17. Mostrar los materiales de laboratorio que esten disponibles y su estado sea "excelente" y mostrarlo con JavaScript
+db.recursos.find({materialLaboratorio:{$exists:true},'estadoFisico.estado':'Excelente','disponibilidad.disponible':1}).forEach(recursos => print("Nombre del material: " + recursos.materialLaboratorio.nombre))
+
+//18.Mostrar
+db.recursos.find({materialBiblioteca:{$exists:true},'estadoFisico.estado':'Malo','disponibilidad.disponible':1}).forEach(recursos => print("Nombre del libro: " + recursos.materialBiblioteca.titulo))
+
+//19.
+db.recursos.find({'materialBiblioteca.fechaPublicacion': { $gte: new Date('2000-01-01'), $lt: new Date('2005-07-01') } }).forEach(recursos => print("titulo:   " + recursos.materialBiblioteca.titulo + "   Fecha de publicación: " + recursos.materialBiblioteca.fechaPublicacion))
+
+//20.
+db.recursos.find({'materialBiblioteca.idioma':{$eq:'Español'},'categoria.nombreCategoria':{$eq:'Software'}}).forEach(recursos => print("titulo:   " + recursos.materialBiblioteca.titulo))
+
+//21.
+db.vales.find({'prestamo.estadoPrestamo':'Devuelto','prestamo.areaPrestamo':'Laboratorio'},{recurso:1,'prestamo.responsable':1,'encargado.matricula':1}).pretty()
+
+//22.
+db.vales.find({'prestamo.areaPrestamo':'Biblioteca','prestamo.fechaEntrega':{$gte:new Date('May 01,2023')}})
+
+//23.
+db.getCollection('vales').aggregate([{$lookup:{from:'usuarios',foreignField:'matricula',localField:'encargado.matricula',as:'EncargadoPrestamo'}}])
+
+//24.
+db.getCollection('vales').aggregate([{$lookup:{from:'usuarios',foreignField:'matricula',localField:'prestamo.responsable',as:'alumno'}}])
+
